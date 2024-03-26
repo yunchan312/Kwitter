@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 
 export default function Create() {
@@ -47,9 +47,10 @@ export default function Create() {
       setLoading(false);
     }
   };
+
   return (
     <div className="h-[100%] flex flex-col w-[420px] justify-center items-center px-[50px] py-[10px]">
-      <div className="text-[42px]">Log into 🥝</div>
+      <div className="text-[42px]">Sign upto 🥝</div>
       <form
         className="mt-[50px] flex flex-col gap-5 w-[100%]"
         onSubmit={onSubmit}
@@ -86,6 +87,12 @@ export default function Create() {
         />
       </form>
       {error !== "" ? <div className="text-red-400">{error}</div> : null}
+      <div>
+        Already have an account?
+        <Link to="/login" className="mt-5 text-kiwi hover:text-kiwiCenter">
+          Log in &rarr;
+        </Link>
+      </div>
     </div>
   );
 }
