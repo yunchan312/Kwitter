@@ -4,6 +4,8 @@ import Home from "./routes/home";
 import Profile from "./routes/profile";
 import Login from "./routes/login";
 import Create from "./routes/create-account";
+import { useEffect, useState } from "react";
+import LoadingScreen from "./components/loading-screen";
 
 const router = createBrowserRouter([
   {
@@ -31,10 +33,16 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const init = async () => {
+    //wait for firebase
+    setTimeout(() => setIsLoading(false), 2000);
+  };
+  useEffect(() => {
+    init();
+  }, []);
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <>{isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}</>
   );
 }
 
