@@ -43,7 +43,9 @@ function App() {
     init();
   }, []);
   return (
-    <>{isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}</>
+    <div className="h-[100vh] flex justify-center">
+      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
+    </div>
   );
 }
 

@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.inputs-default {
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid grey;
+  &[type="submit"] {
+    cursor: pointer;
+    background-color: #ff6723;
+    border: none;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
