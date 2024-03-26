@@ -18,3 +18,24 @@
     }
   }
 }
+
+.menuItem {
+  border: 1px solid #1b1c1b;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  &.log-out {
+    border-color: rgb(248, 113, 113);
+    stroke: rgb(248, 113, 113);
+  }
+}
+
+.icon-nav {
+  width: 30px;
+  fill: #1b1c1b;
+}

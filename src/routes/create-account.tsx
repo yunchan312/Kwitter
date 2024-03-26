@@ -3,6 +3,7 @@ import { useState } from "react";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
+import GithubButton from "../components/github-button";
 
 export default function Create() {
   const navigate = useNavigate();
@@ -86,12 +87,13 @@ export default function Create() {
         />
       </form>
       {error !== "" ? <div className="text-red-400">{error}</div> : null}
-      <div>
+      <div className="my-4">
         Already have an account?
         <Link to="/login" className="mt-5 text-kiwi hover:text-kiwiCenter">
           Log in &rarr;
         </Link>
       </div>
+      <GithubButton />
     </div>
   );
 }

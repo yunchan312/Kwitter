@@ -5,9 +5,8 @@ export default function Home() {
     auth.signOut();
   };
   return (
-    <>
-      <h1>Home!</h1>
+    <div>
       <button onClick={logOut}>logout</button>
-    </>
+    </div>
   );
 }
