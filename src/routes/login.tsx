@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import GithubButton from "../components/github-button";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ export default function Login() {
       navigate("/");
     } catch (e) {
       if (e instanceof FirebaseError) {
-        console.log(e.code);
         setError(e.message);
       }
       //set the error
@@ -64,16 +64,17 @@ export default function Login() {
         <input
           className="inputs-default"
           type="submit"
-          value={isLoading ? "Loading..." : "Create Account"}
+          value={isLoading ? "Loading..." : "Log In"}
         />
       </form>
       {error !== "" ? <div className="text-red-400">{error}</div> : null}
-      <div>
+      <div className="my-4">
         Don't have an account?
         <Link to="/create-account" className="text-kiwi hover:text-kiwiCenter">
           Create one &rarr;
         </Link>
       </div>
+      <GithubButton />
     </div>
   );
 }

@@ -39,7 +39,6 @@ export default function Create() {
       navigate("/");
     } catch (e) {
       if (e instanceof FirebaseError) {
-        console.log(e.code);
         setError(e.message);
       }
       //set the error
