@@ -10,6 +10,12 @@ export default function PostTweetForm() {
   const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setKiwi(e.target.value);
   };
+  const fileSize = (file: File | null) => {
+    if (file && file.size <= 1000000) {
+      return true;
+    }
+    return false;
+  };
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (files && files.length === 1) {
@@ -17,25 +23,28 @@ export default function PostTweetForm() {
     }
   };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     const user = auth.currentUser;
     if (!user || isLoading || kiwi === "" || kiwi.length > 180) return;
     try {
       setLoading(true);
-      const document = await addDoc(collection(database, "kiwi"), {
-        kiwi,
-        createdAt: Date.now(),
-        username: user.displayName || "Annonymous",
-        userId: user.displayName,
-        userEmail: user.email,
-      });
-      if (file) {
-        const locationRef = ref(storage, `kiwi/${user.uid}/${document.id}`);
-        const result = await uploadBytes(locationRef, file);
-        const url = await getDownloadURL(result.ref);
-        await updateDoc(document, {
-          photo: url,
+      if (file && !fileSize(file)) {
+        alert("Error: file size is too big.(maximun: 1MB)");
+      } else {
+        const document = await addDoc(collection(database, "kiwi"), {
+          kiwi,
+          createdAt: Date.now(),
+          username: user.displayName || "Annonymous",
+          userId: user.displayName,
+          userEmail: user.email,
         });
+        if (fileSize(file) && file) {
+          const locationRef = ref(storage, `kiwi/${user.uid}/${document.id}`);
+          const result = await uploadBytes(locationRef, file);
+          const url = await getDownloadURL(result.ref);
+          await updateDoc(document, {
+            photo: url,
+          });
+        }
       }
       setKiwi("");
       setFile(null);
