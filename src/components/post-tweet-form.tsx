@@ -1,4 +1,6 @@
+import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
+import { auth, database } from "../firebase";
 
 export default function PostTweetForm() {
   const [isLoading, setLoading] = useState(false);
@@ -13,9 +15,29 @@ export default function PostTweetForm() {
       setFile(files[0]);
     }
   };
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const user = auth.currentUser;
+    if (!user || isLoading || kiwi === "" || kiwi.length > 180) return;
+    try {
+      setLoading(true);
+      await addDoc(collection(database, "kiwi"), {
+        kiwi,
+        createdAt: Date.now(),
+        username: user.displayName || "Annonymous",
+        userId: user.displayName,
+        userEmail: user.email,
+      });
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
-    <form className="flex flex-col gap-3">
+    <form className="flex flex-col gap-3" onSubmit={onSubmit}>
       <textarea
+        required
         onChange={onChange}
         rows={5}
         maxLength={180}

@@ -11,7 +11,7 @@ export default function Layout() {
     }
   };
   return (
-    <div className="grid gap-10 py-[50px] w-[100%] max-w-[860px] grid-cols-[1fr_4fr]">
+    <div className="grid gap-10 py-[50px] w-[100%] max-w-[860px] grid-cols-[1fr_6fr]">
       <div className="flex flex-col items-center gap-3">
         <div className="menuItem">
           <Link to="/profile">
