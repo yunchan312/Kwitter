@@ -1,12 +1,9 @@
-import { auth } from "../firebase";
+import PostTweetForm from "../components/post-tweet-form";
 
 export default function Home() {
-  const logOut = () => {
-    auth.signOut();
-  };
   return (
     <div>
-      <button onClick={logOut}>logout</button>
+      <PostTweetForm />
     </div>
   );
 }
