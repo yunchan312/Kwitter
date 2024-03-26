@@ -1,6 +1,7 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { useState } from "react";
-import { auth, database } from "../firebase";
+import { auth, database, storage } from "../firebase";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default function PostTweetForm() {
   const [isLoading, setLoading] = useState(false);
@@ -21,13 +22,23 @@ export default function PostTweetForm() {
     if (!user || isLoading || kiwi === "" || kiwi.length > 180) return;
     try {
       setLoading(true);
-      await addDoc(collection(database, "kiwi"), {
+      const document = await addDoc(collection(database, "kiwi"), {
         kiwi,
         createdAt: Date.now(),
         username: user.displayName || "Annonymous",
         userId: user.displayName,
         userEmail: user.email,
       });
+      if (file) {
+        const locationRef = ref(storage, `kiwi/${user.uid}/${document.id}`);
+        const result = await uploadBytes(locationRef, file);
+        const url = await getDownloadURL(result.ref);
+        await updateDoc(document, {
+          photo: url,
+        });
+      }
+      setKiwi("");
+      setFile(null);
     } catch (e) {
       console.log(e);
     } finally {
