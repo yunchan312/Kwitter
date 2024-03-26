@@ -1,6 +1,10 @@
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function Create() {
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,14 +20,24 @@ export default function Create() {
       setEmail(e.target.value);
     }
   };
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isLoading || name === "" || email === "" || password === "") return;
     try {
-      //create account.
-      //set the name of the user.
-      //re direct to the home page.
-    } catch (e) {
+      setLoading(true);
+      const credentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(credentials.user);
+      await updateProfile(credentials.user, {
+        displayName: name,
+      });
+      navigate("/");
+    } catch (e: any) {
       //set the error
+      console.log(e.code);
     } finally {
       setLoading(false);
     }
@@ -32,7 +46,7 @@ export default function Create() {
   };
   return (
     <div className="h-[100%] flex flex-col w-[420px] justify-center items-center px-[50px] py-[10px]">
-      <div className="text-[42px]">Log into Kwitter</div>
+      <div className="text-[42px]">Log into 🥝</div>
       <form
         className="mt-[50px] flex flex-col gap-5 w-[100%]"
         onSubmit={onSubmit}

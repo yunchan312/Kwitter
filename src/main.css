@@ -11,10 +11,10 @@
   border: 1px solid grey;
   &[type="submit"] {
     cursor: pointer;
-    background-color: #ff6723;
+    background-color: #00d26a;
     border: none;
     &:hover {
-      opacity: 0.8;
+      background-color: #e2ff92;
     }
   }
 }
