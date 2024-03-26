@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { FirebaseError } from "firebase/app";
 
 export default function Create() {
   const navigate = useNavigate();
@@ -10,6 +11,7 @@ export default function Create() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let temp = e.target.name;
     if (temp === "nickname") {
@@ -23,6 +25,7 @@ export default function Create() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isLoading || name === "" || email === "" || password === "") return;
+    setError("");
     try {
       setLoading(true);
       const credentials = await createUserWithEmailAndPassword(
@@ -30,19 +33,19 @@ export default function Create() {
         email,
         password
       );
-      console.log(credentials.user);
       await updateProfile(credentials.user, {
         displayName: name,
       });
       navigate("/");
-    } catch (e: any) {
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        console.log(e.code);
+        setError(e.message);
+      }
       //set the error
-      console.log(e.code);
     } finally {
       setLoading(false);
     }
-
-    console.log(name, email, password);
   };
   return (
     <div className="h-[100%] flex flex-col w-[420px] justify-center items-center px-[50px] py-[10px]">
@@ -82,9 +85,7 @@ export default function Create() {
           value={isLoading ? "Loading..." : "Create Account"}
         />
       </form>
-      {error !== "" ? (
-        <div className="font-bold text-red-400">{error}</div>
-      ) : null}
+      {error !== "" ? <div className="text-red-400">{error}</div> : null}
     </div>
   );
 }
