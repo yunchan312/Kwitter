@@ -23,6 +23,7 @@ export default function PostTweetForm() {
     }
   };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const user = auth.currentUser;
     if (!user || isLoading || kiwi === "" || kiwi.length > 180) return;
     try {
@@ -34,11 +35,14 @@ export default function PostTweetForm() {
           kiwi,
           createdAt: Date.now(),
           username: user.displayName || "Annonymous",
-          userId: user.displayName,
+          userId: user.uid,
           userEmail: user.email,
         });
         if (fileSize(file) && file) {
-          const locationRef = ref(storage, `kiwi/${user.uid}/${document.id}`);
+          const locationRef = ref(
+            storage,
+            `kiwi/${user.uid}-${user.displayName}/${document.id}`
+          );
           const result = await uploadBytes(locationRef, file);
           const url = await getDownloadURL(result.ref);
           await updateDoc(document, {
@@ -63,7 +67,7 @@ export default function PostTweetForm() {
         maxLength={180}
         value={kiwi}
         placeholder="What is your 🥝?"
-        className="border-2 p-1 border-kiwi rounded-lg h-[100px] w-[100%] resize-none focus:outline-none focus:border-kiwiCenter"
+        className="border-2 p-1 border-kiwi rounded-lg h-[130px] w-[100%] resize-none focus:outline-none focus:border-kiwiCenter"
       />
       <label
         htmlFor="file"

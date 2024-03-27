@@ -14,7 +14,7 @@ export default function Layout() {
     <div className="grid gap-10 py-[50px] w-[100%] max-w-[860px] grid-cols-[1fr_6fr]">
       <div className="flex flex-col items-center gap-3">
         <div className="menuItem">
-          <Link to="/profile">
+          <Link to="/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -27,7 +27,7 @@ export default function Layout() {
           </Link>
         </div>
         <div className="menuItem">
-          <Link to="/">
+          <Link to="/profile">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="black"

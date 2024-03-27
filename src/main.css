@@ -2,40 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-.inputs-default {
-  padding: 10px 20px;
-  border-radius: 50px;
-  border: none;
-  width: 100%;
-  font-size: 16px;
-  border: 1px solid grey;
-  &[type="submit"] {
-    cursor: pointer;
-    background-color: #00d26a;
+@layer components {
+  .inputs-default {
+    padding: 10px 20px;
+    border-radius: 50px;
     border: none;
-    &:hover {
-      background-color: #e2ff92;
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid grey;
+    &[type="submit"] {
+      cursor: pointer;
+      background-color: #00d26a;
+      border: none;
+      &:hover {
+        background-color: #e2ff92;
+      }
     }
   }
-}
 
-.menuItem {
-  border: 1px solid #1b1c1b;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 50px;
-  width: 50px;
-  border-radius: 50%;
-  &.log-out {
-    border-color: rgb(248, 113, 113);
-    stroke: rgb(248, 113, 113);
+  .menuItem {
+    border: 1px solid #1b1c1b;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    &.log-out {
+      border-color: rgb(248, 113, 113);
+      stroke: rgb(248, 113, 113);
+    }
+  }
+
+  .icon-nav {
+    width: 30px;
+    fill: #1b1c1b;
   }
 }
 
-.icon-nav {
-  width: 30px;
-  fill: #1b1c1b;
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
