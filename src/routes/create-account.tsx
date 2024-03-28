@@ -3,7 +3,6 @@ import { useState } from "react";
 import { auth } from "../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { FirebaseError } from "firebase/app";
-import GithubButton from "../components/github-button";
 
 export default function Create() {
   const navigate = useNavigate();
@@ -93,7 +92,6 @@ export default function Create() {
           Log in &rarr;
         </Link>
       </div>
-      <GithubButton />
     </div>
   );
 }
