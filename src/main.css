@@ -2,7 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+}
+
 @layer components {
+  .markdown {
+    padding: 10px;
+    blockquote {
+      border: 1px solid #e2ff92;
+      border-radius: 10px;
+      background-color: #e2ff92;
+      padding: 5px 10px;
+    }
+    ul,
+    ol {
+      list-style-type: "🥝";
+      padding: 0px 20px;
+    }
+    li {
+      padding-left: 5px;
+    }
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-weight: 600;
+      padding-bottom: 3px;
+    }
+    h1 {
+      font-size: 60px;
+    }
+    h2 {
+      font-size: 50px;
+    }
+    h3 {
+      font-size: 30px;
+    }
+    h4 {
+      font-size: 20px;
+    }
+  }
+
   .inputs-default {
     padding: 10px 20px;
     border-radius: 50px;

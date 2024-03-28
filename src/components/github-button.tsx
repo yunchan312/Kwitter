@@ -10,7 +10,6 @@ export default function GithubButton() {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
       navigate("/");
-      console.log("Succeed");
     } catch (e) {
       console.error(e);
       if (e instanceof FirebaseError) {

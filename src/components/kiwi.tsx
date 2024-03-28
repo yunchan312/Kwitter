@@ -1,10 +1,21 @@
 import { deleteDoc, doc } from "firebase/firestore";
 import { auth, database, storage } from "../firebase";
 import { IKiwi } from "./timeline";
-import { deleteObject, ref } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref } from "firebase/storage";
+import Test from "../markdown";
+import { useEffect, useState } from "react";
 
 export default function Kiwi({ username, photo, kiwi, userId, id }: IKiwi) {
   const user = auth.currentUser;
+  const [avatar, setAvatar] = useState("");
+  useEffect(() => {
+    const locationRef = ref(storage, `avatar/${userId}`);
+    const avatarUrl = getDownloadURL(locationRef);
+    const result = Promise.resolve(avatarUrl);
+    result.then((v: string) => {
+      setAvatar(v);
+    });
+  }, []);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;
@@ -24,8 +35,16 @@ export default function Kiwi({ username, photo, kiwi, userId, id }: IKiwi) {
   };
   return (
     <div className="border-2 border-kiwiCeed rounded-xl py-3 px-5 mb-5">
-      <div className="flex items-center justify-between mb-5">
-        <div className="font-bold text-xl">{username}</div>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex justify-center items-center gap-1">
+          {avatar ? (
+            <img
+              className="border-2 rounded-full h-[50px] w-[50px] border-kiwiCenter"
+              src={avatar}
+            />
+          ) : null}
+          <div className="font-bold text-xl">{username}</div>
+        </div>
         {user?.uid === userId ? (
           <div
             onClick={onDelete}
@@ -35,8 +54,9 @@ export default function Kiwi({ username, photo, kiwi, userId, id }: IKiwi) {
           </div>
         ) : null}
       </div>
-      <div className="flex justify-between items-center">
-        <div className="text-lg">{kiwi}</div>
+      <hr />
+      <div className="flex justify-between items-center mt-1">
+        <Test kiwi={kiwi} />
         {photo ? (
           <div>
             <img
